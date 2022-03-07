@@ -1,11 +1,10 @@
 import { Client } from 'boardgame.io/react';
-import { Game } from 'boardgame.io/core';
-import {initialState, drawCard} from './GameLogic';
+import { initialState, drawCard, playCard } from './GameLogic';
 
 const cardGame = {
   setup: initialState,
   moves: {
-    drawCard
+    drawCard, playCard
   }
 };
 

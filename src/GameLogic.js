@@ -1,4 +1,4 @@
-export function initialState(ctx) {
+function initialState(ctx) {
     return {
         cards: ["one", "two", "three", "four", "five", "six", "seven", "eight"],
         player_0: {
@@ -14,28 +14,46 @@ export function initialState(ctx) {
     };
 }
 
-export function drawCard(currentState) {
-    // TODO: we'll need a way to know which is the current player 
-    // at some point.
-    // but for now let's assume it's player 0.
-    let playerID = "player_0";
-    let player = currentState[playerID];
-
-    // Add the last card in the player's deck to their hand.
-    let deckIndex = player.deck.length - 1;
-    let hand = [...player.hand, player.deck[deckIndex]];
-
-    // Remove the last card in the deck.
-    let deck = player.deck.slice(0, deckIndex);
-
-    // Construct and return a new state object with our changes.
-    player = { ...player, hand, deck };
-    let state = { ...currentState, [playerID]: player };
-
-    return state;
+function getCurrentPlayer(state, ctx) {
+    let playerId = "player_" + ctx.currentPlayer;
+    let currentPlayer = state[playerId];
+    return {currentPlayer, playerId};
 }
 
-// let state_0 = initialState();
-// let state_1 = drawCard(state_0);
-// console.log('state_0', state_0);
-// console.log('state_1', state_1);
+function constructStateForPlayer(currentState, playerId, playerState) {
+    let newPlayerState = Object.assign({}, currentState[playerId], playerState);
+    return {...currentState, [playerId]: newPlayerState};
+}
+
+const ImmutableArray = {
+    append(arr, value) {
+        return [...arr, value];
+    },
+    removeAt(arr, index) {
+        return [...arr.slice(0, index), ...arr.slice(index + 1)];
+    }
+};
+
+function drawCard(currentState, ctx) {
+    let {currentPlayer, playerId} = getCurrentPlayer(currentState, ctx);
+    // Add the last card in the player's deck to their hand.
+    let deckIndex = currentPlayer.deck.length - 1;
+    let hand = ImmutableArray.append(currentPlayer.hand, currentPlayer.deck[deckIndex]);
+    // Remove the last card in the deck.
+    let deck = ImmutableArray.removeAt(currentPlayer.deck, deckIndex);
+    // Construct and return a new state object with our changes.
+    return constructStateForPlayer(currentState, playerId, {hand, deck});
+}
+
+function playCard(currentState, ctx, cardId) {
+    let {currentPlayer, playerId} = getCurrentPlayer(currentState, ctx);
+    // Find the card in their hand and add it to the field.
+    let handIndex = currentPlayer.hand.indexOf(cardId);
+    let field = ImmutableArray.append(currentPlayer.field, currentPlayer.hand[handIndex]);
+    // Remove the card from their hand.
+    let hand = ImmutableArray.removeAt(currentPlayer.hand, handIndex);
+    // Construct and return a new state object with our changes.
+    return constructStateForPlayer(currentState, playerId, {hand, field});
+}
+
+export { initialState, drawCard, playCard };
