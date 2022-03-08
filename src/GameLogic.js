@@ -1,17 +1,34 @@
-function initialState(ctx) {
-    return {
-        cards: ["one", "two", "three", "four", "five", "six", "seven", "eight"],
+import CardPrototypes from './CardPrototypes.json';
+
+function initialState(ctx, state) {
+    let cardId = 0;
+    let cards = [];
+    for (let duplicate = 0; duplicate < 4; duplicate++) {
+        for (let index = 0; index < CardPrototypes.length; index++) {
+            cards.push({
+                id: cardId++,
+                proto: CardPrototypes[index]
+            });
+        }
+    }
+
+    let initialState = state || {
         player_0: {
-            deck: [0, 1, 2, 3],
+            deck: [0, 1],
             hand: [],
-            field: []
+            field: [],
+            trash: []
         },
         player_1: {
-            deck: [4, 5, 6, 7],
+            deck: [0, 1],
             hand: [],
-            field: []
-        }
+            field: [],
+            trash: []
+        },
+        cards
     };
+
+    return initialState;
 }
 
 function getCurrentPlayer(state, ctx) {
@@ -34,26 +51,26 @@ const ImmutableArray = {
     }
 };
 
-function drawCard(currentState, ctx) {
-    let {currentPlayer, playerId} = getCurrentPlayer(currentState, ctx);
+function drawCard(G, ctx) {
+    let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
     // Add the last card in the player's deck to their hand.
     let deckIndex = currentPlayer.deck.length - 1;
     let hand = ImmutableArray.append(currentPlayer.hand, currentPlayer.deck[deckIndex]);
     // Remove the last card in the deck.
     let deck = ImmutableArray.removeAt(currentPlayer.deck, deckIndex);
     // Construct and return a new state object with our changes.
-    return constructStateForPlayer(currentState, playerId, {hand, deck});
+    return constructStateForPlayer(G, playerId, {hand, deck});
 }
 
-function playCard(currentState, ctx, cardId) {
-    let {currentPlayer, playerId} = getCurrentPlayer(currentState, ctx);
+function playCard(G, ctx, cardId) {
+    let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
     // Find the card in their hand and add it to the field.
     let handIndex = currentPlayer.hand.indexOf(cardId);
     let field = ImmutableArray.append(currentPlayer.field, currentPlayer.hand[handIndex]);
     // Remove the card from their hand.
     let hand = ImmutableArray.removeAt(currentPlayer.hand, handIndex);
     // Construct and return a new state object with our changes.
-    return constructStateForPlayer(currentState, playerId, {hand, field});
+    return constructStateForPlayer(G, playerId, {hand, field});
 }
 
 export { initialState, drawCard, playCard };

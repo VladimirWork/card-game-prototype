@@ -1,5 +1,6 @@
 import { Client } from 'boardgame.io/react';
 import { initialState, drawCard, playCard } from './GameLogic';
+import GameRender from './GameRender';
 
 const cardGame = {
   setup: initialState,
@@ -9,7 +10,8 @@ const cardGame = {
 };
 
 const App = Client({
-  game: cardGame
+  game: cardGame,
+  board: GameRender
 });
 
 export default App;

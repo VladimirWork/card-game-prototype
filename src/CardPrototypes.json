@@ -1,0 +1,18 @@
+[
+    {
+        "id": "basic_knight",
+        "title": "Knight",
+        "type": "creature",
+        "mana_cost": 1,
+        "power": 1,
+        "toughness": 2
+    },
+    {
+        "id": "basic_archer",
+        "title": "Archer",
+        "type": "creature",
+        "mana_cost": 1,
+        "power": 2,
+        "toughness": 1
+    }
+]
