@@ -14,7 +14,7 @@ function initialState(ctx, state) {
 
     let initialState = state || {
         player_0: {
-            deck: [0, 1],
+            deck: [0, 1, 2],
             hand: [],
             field: [],
             trash: []
@@ -37,40 +37,14 @@ function getCurrentPlayer(state, ctx) {
     return {currentPlayer, playerId};
 }
 
-function constructStateForPlayer(currentState, playerId, playerState) {
-    let newPlayerState = Object.assign({}, currentState[playerId], playerState);
-    return {...currentState, [playerId]: newPlayerState};
-}
-
-const ImmutableArray = {
-    append(arr, value) {
-        return [...arr, value];
-    },
-    removeAt(arr, index) {
-        return [...arr.slice(0, index), ...arr.slice(index + 1)];
-    }
-};
-
 function drawCard(G, ctx) {
     let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
-    // Add the last card in the player's deck to their hand.
-    let deckIndex = currentPlayer.deck.length - 1;
-    let hand = ImmutableArray.append(currentPlayer.hand, currentPlayer.deck[deckIndex]);
-    // Remove the last card in the deck.
-    let deck = ImmutableArray.removeAt(currentPlayer.deck, deckIndex);
-    // Construct and return a new state object with our changes.
-    return constructStateForPlayer(G, playerId, {hand, deck});
+    currentPlayer.hand.push(currentPlayer.deck.pop());
 }
 
-function playCard(G, ctx, cardId) {
+function playCard(G, ctx) {
     let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
-    // Find the card in their hand and add it to the field.
-    let handIndex = currentPlayer.hand.indexOf(cardId);
-    let field = ImmutableArray.append(currentPlayer.field, currentPlayer.hand[handIndex]);
-    // Remove the card from their hand.
-    let hand = ImmutableArray.removeAt(currentPlayer.hand, handIndex);
-    // Construct and return a new state object with our changes.
-    return constructStateForPlayer(G, playerId, {hand, field});
+    currentPlayer.field.unshift(currentPlayer.hand.shift());
 }
 
 export { initialState, drawCard, playCard };
