@@ -2,15 +2,22 @@ import { Client } from 'boardgame.io/react';
 import { initialState, drawCard, playCard } from './GameLogic';
 import GameRender from './GameRender';
 
-const cardGame = {
+const game = {
   setup: initialState,
-  moves: {
-    drawCard, playCard
+  turn: { minMoves: 1, maxMoves: 1 },
+  phases: {
+    draw: {
+      moves: { drawCard },
+      start: true,
+    },
+    play: {
+      moves: { playCard },
+    },
   }
 };
 
 const App = Client({
-  game: cardGame,
+  game: game,
   board: GameRender
 });
 
