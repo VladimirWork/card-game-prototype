@@ -38,12 +38,12 @@ function getCurrentPlayer(state, ctx) {
 }
 
 function drawCard(G, ctx) {
-    let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
+    let {currentPlayer, _} = getCurrentPlayer(G, ctx);
     currentPlayer.hand.push(currentPlayer.deck.pop());
 }
 
 function playCard(G, ctx) {
-    let {currentPlayer, playerId} = getCurrentPlayer(G, ctx);
+    let {currentPlayer, _} = getCurrentPlayer(G, ctx);
     currentPlayer.field.unshift(currentPlayer.hand.shift());
 }
 
