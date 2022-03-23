@@ -1,3 +1,4 @@
+import { Client } from 'boardgame.io/client';
 import CardPrototypes from './CardPrototypes.json';
 
 function initialState(ctx, state) {
@@ -14,7 +15,7 @@ function initialState(ctx, state) {
 
     let initialState = state || {
         player_0: {
-            deck: [0, 1, 2],
+            deck: [0],
             hand: [],
             field: [],
             trash: []
@@ -47,4 +48,9 @@ function playCard(G, ctx) {
     currentPlayer.field.unshift(currentPlayer.hand.shift());
 }
 
-export { initialState, drawCard, playCard };
+function switchStage() {
+    const client = Client({});
+    client.events.setStage("A");
+}
+
+export { initialState, drawCard, playCard, switchStage };

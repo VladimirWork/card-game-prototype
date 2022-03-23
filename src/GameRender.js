@@ -5,7 +5,7 @@ class GameRender extends React.Component {
         // Get state references.
         const state = this.props.G;
         const ctx = this.props.ctx;
-        const player = state["player_" + ctx.currentPlayer];
+        const player = state[`player_${ctx.currentPlayer}`];
         // Create an array of <div> for each card in the player hand.
         const hand = player.deck.map(cardId => {
             let card = state.cards[cardId];
