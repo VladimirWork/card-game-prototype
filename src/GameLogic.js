@@ -15,14 +15,14 @@ function initialState(ctx, state) {
 
     let initialState = state || {
         player_0: {
-            deck: [0],
-            hand: [],
+            deck: [],
+            hand: [0, 1],
             field: [],
             trash: []
         },
         player_1: {
-            deck: [0, 1],
-            hand: [],
+            deck: [],
+            hand: [0, 1, 2],
             field: [],
             trash: []
         },
@@ -48,9 +48,8 @@ function playCard(G, ctx) {
     currentPlayer.field.unshift(currentPlayer.hand.shift());
 }
 
-function switchStage() {
-    const client = Client({});
-    client.events.setStage("A");
+function switchStage(ctx) {
+    ctx.events.setStage("A");
 }
 
 export { initialState, drawCard, playCard, switchStage };
