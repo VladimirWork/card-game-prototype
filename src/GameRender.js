@@ -12,28 +12,49 @@ class GameRender extends React.Component {
                 display: 'flex',
                 flexDirection: 'column',
                 width: window.outerWidth,
-                height: window.outerHeight * 0.91,
+                height: window.outerHeight * 0.92,
             },
-            topPane: {
+            topHandPane: {
                 display: 'flex',
-                height: '50%',
-                width: '100%',
-                backgroundColor: "Lime",
+                height: '25%',
+                // width: '100%',
+                backgroundColor: "DeepSkyBlue",
                 flexDirection: 'row',
-                justifyContent: 'space-evenly',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
             },
-            bottomPane: {
+            topFieldPane: {
                 display: 'flex',
-                height: '50%',
-                width: '100%',
-                backgroundColor: "Cyan",
+                height: '25%',
+                // width: '100%',
+                backgroundColor: "LightSkyBlue",
                 flexDirection: 'row',
-                justifyContent: 'space-evenly',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+            },
+            bottomFieldPane: {
+                display: 'flex',
+                height: '25%',
+                // width: '100%',
+                backgroundColor: "Turquoise",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+            },
+            bottomHandPane: {
+                display: 'flex',
+                height: '25%',
+                // width: '100%',
+                backgroundColor: "MediumTurquoise",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
             },
             card: {
                 height: '150px',
                 width: '100px',
                 backgroundColor: "White",
+                margin: '5px'
             }
           };
 
@@ -57,10 +78,16 @@ class GameRender extends React.Component {
         });
 
         return  <div style={styles.splitScreen}>
-                    <div style={styles.topPane}>
+                    <div style={styles.topHandPane}>
                         {hand1}
                     </div>
-                    <div style={styles.bottomPane}>
+                    <div style={styles.topFieldPane}>
+
+                    </div>
+                    <div style={styles.bottomFieldPane}>
+
+                    </div>
+                    <div style={styles.bottomHandPane}>
                         {hand2}
                     </div>
                 </div>;
