@@ -17,13 +17,13 @@ function initialState(ctx, state) {
         player_0: {
             deck: [],
             hand: [0, 1],
-            field: [],
+            field: [1],
             trash: []
         },
         player_1: {
             deck: [],
             hand: [0, 1, 2],
-            field: [],
+            field: [0],
             trash: []
         },
         cards

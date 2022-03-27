@@ -16,8 +16,7 @@ class GameRender extends React.Component {
             },
             topHandPane: {
                 display: 'flex',
-                height: '25%',
-                // width: '100%',
+                flex: 1,
                 backgroundColor: "DeepSkyBlue",
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -25,26 +24,23 @@ class GameRender extends React.Component {
             },
             topFieldPane: {
                 display: 'flex',
-                height: '25%',
-                // width: '100%',
+                flex: 1,
                 backgroundColor: "LightSkyBlue",
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-            },
-            bottomFieldPane: {
-                display: 'flex',
-                height: '25%',
-                // width: '100%',
-                backgroundColor: "Turquoise",
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'flex-end',
             },
+            bottomFieldPane: {
+                display: 'flex',
+                flex: 1,
+                backgroundColor: "Turquoise",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+            },
             bottomHandPane: {
                 display: 'flex',
-                height: '25%',
-                // width: '100%',
+                flex: 1,
                 backgroundColor: "MediumTurquoise",
                 flexDirection: 'row',
                 justifyContent: 'center',
@@ -54,38 +50,34 @@ class GameRender extends React.Component {
                 height: '150px',
                 width: '100px',
                 backgroundColor: "White",
-                margin: '5px'
+                margin: '5px',
+                textAlign: 'center',
             }
           };
 
-        // Create an array of <div> for each card in the player hand.
-        const hand1 = player1.hand.map(cardId => {
+        const getCardsAsDivs = (cardId) => {
             let card = state.cards[cardId];
             return  <div key={card.id} style={styles.card}>
                         <p>{card.proto.title}</p>
                         <p>Power: {card.proto.power}</p>
                         <p>Toughness: {card.proto.toughness}</p>
                     </div>;
-        });
+        }
 
-        const hand2 = player2.hand.map(cardId => {
-            let card = state.cards[cardId];
-            return  <div key={card.id} style={styles.card}>
-                        <p>{card.proto.title}</p>
-                        <p>Power: {card.proto.power}</p>
-                        <p>Toughness: {card.proto.toughness}</p>
-                    </div>;
-        });
+        const hand1 = player1.hand.map(getCardsAsDivs);
+        const hand2 = player2.hand.map(getCardsAsDivs);
+        const field1 = player1.field.map(getCardsAsDivs);
+        const field2 = player2.field.map(getCardsAsDivs);
 
         return  <div style={styles.splitScreen}>
                     <div style={styles.topHandPane}>
                         {hand1}
                     </div>
                     <div style={styles.topFieldPane}>
-
+                        {field1}
                     </div>
                     <div style={styles.bottomFieldPane}>
-
+                        {field2}
                     </div>
                     <div style={styles.bottomHandPane}>
                         {hand2}
