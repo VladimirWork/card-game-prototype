@@ -1,7 +1,8 @@
 import React from 'react';
-import { useDrag } from 'react-dnd'
+import { useDrag, useDrop } from 'react-dnd'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { playCard } from './GameLogic';
 
 class GameRender extends React.Component {
     render() {
@@ -58,7 +59,7 @@ class GameRender extends React.Component {
             }
           };
 
-        const MovableItem = (props) => {
+        const DraggableItem = (props) => {
             const [{ isDragging }, drag] = useDrag({
                 type: 'CARD',
                 collect: (monitor) => ({
@@ -77,7 +78,7 @@ class GameRender extends React.Component {
 
         const getCardsAsDivs = (cardId) => {
             let card = state.cards[cardId];
-            return <MovableItem card={card} />
+            return <DraggableItem card={card} />
             // return  <div key={card.id} style={styles.card}>
             //             <p>{card.proto.title}</p>
             //             <p>Power: {card.proto.power}</p>
@@ -90,17 +91,34 @@ class GameRender extends React.Component {
         const field1 = player1.field.map(getCardsAsDivs);
         const field2 = player2.field.map(getCardsAsDivs);
 
+        const DroppableItem = (props) => {
+            const [{canDrop, isOver}, drop] = useDrop({
+                accept: 'CARD',
+                drop: () => this.props.moves.playCard(),
+                collect: (monitor) => ({
+                    isOver: monitor.isOver(),
+                    canDrop: monitor.canDrop(),
+                }),
+            });
+
+            return  <div ref={drop} style={props.style}>
+                        {props.field}
+                    </div>
+        }
+
         return  <div style={styles.splitScreen}>
                     <DndProvider backend={HTML5Backend}>
                         <div style={styles.topHandPane}>
                             {hand1}
                         </div>
-                        <div style={styles.topFieldPane}>
+                        {/* <div style={styles.topFieldPane}>
                             {field1}
-                        </div>
-                        <div style={styles.bottomFieldPane}>
+                        </div> */}
+                        <DroppableItem style={styles.topFieldPane} field={field1} />
+                        <DroppableItem style={styles.bottomFieldPane} field={field2} />
+                        {/* <div style={styles.bottomFieldPane}>
                             {field2}
-                        </div>
+                        </div> */}
                         <div style={styles.bottomHandPane}>
                             {hand2}
                         </div>

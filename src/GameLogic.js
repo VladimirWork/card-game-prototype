@@ -16,13 +16,13 @@ function initialState(ctx, state) {
         player_0: {
             deck: [],
             hand: [0, 1],
-            field: [1],
+            field: [],
             trash: []
         },
         player_1: {
             deck: [],
             hand: [0, 1, 2],
-            field: [0],
+            field: [],
             trash: []
         },
         cards
@@ -42,9 +42,9 @@ function drawCard(G, ctx) {
     currentPlayer.hand.push(currentPlayer.deck.pop());
 }
 
-function playCard(G, ctx) {
+function playCard(G, ctx, idx) {
     let {currentPlayer, _} = getCurrentPlayer(G, ctx);
-    currentPlayer.field.unshift(currentPlayer.hand.shift());
+    currentPlayer.field.push(currentPlayer.hand.splice(idx, 1)[0]);
 }
 
 function switchStage(ctx) {
