@@ -1,4 +1,3 @@
-import { Client } from 'boardgame.io/client';
 import CardPrototypes from './CardPrototypes.json';
 
 function initialState(ctx, state) {
@@ -33,7 +32,7 @@ function initialState(ctx, state) {
 }
 
 function getCurrentPlayer(state, ctx) {
-    let playerId = "player_" + ctx.currentPlayer;
+    let playerId = 'player_' + ctx.currentPlayer;
     let currentPlayer = state[playerId];
     return {currentPlayer, playerId};
 }
@@ -49,7 +48,7 @@ function playCard(G, ctx) {
 }
 
 function switchStage(ctx) {
-    ctx.events.setStage("A");
+    ctx.events.setStage('A');
 }
 
 export { initialState, drawCard, playCard, switchStage };
